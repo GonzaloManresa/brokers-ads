@@ -1,0 +1,4 @@
+{
+  "outputDirectory": "archivos",
+  "rewrites": [{ "source": "/", "destination": "/app.html" }]
+}
