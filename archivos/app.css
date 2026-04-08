@@ -65,7 +65,7 @@ body {
   box-shadow: var(--shadow-md);
 }
 .login-logo {
-  font-size: 13px; font-weight: 700; letter-spacing: 0.04em;
+  font-size: 13px; font-weight: 600; letter-spacing: 0.04em;
   color: var(--blue); text-transform: uppercase;
   margin-bottom: 32px;
   display: flex; align-items: center; gap: 10px;
@@ -76,9 +76,9 @@ body {
   background: var(--blue); border-radius: 2px;
 }
 .login-title {
-  font-size: 26px; font-weight: 700;
+  font-size: 26px; font-weight: 600;
   color: var(--text); margin-bottom: 6px;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
 }
 .login-sub {
   font-size: 13px; color: var(--muted);
@@ -107,7 +107,7 @@ body {
   position: sticky; top: 0; z-index: 100;
 }
 .shell-logo {
-  font-size: 13px; font-weight: 700; letter-spacing: 0.04em;
+  font-size: 13px; font-weight: 600; letter-spacing: 0.04em;
   color: var(--blue); text-transform: uppercase;
 }
 .shell-right {
@@ -157,8 +157,8 @@ body {
 }
 .view-title {
   font-size: clamp(22px, 3vw, 32px);
-  font-weight: 700; line-height: 1.2;
-  letter-spacing: -0.02em;
+  font-weight: 600; line-height: 1.2;
+  letter-spacing: -0.01em;
   margin-bottom: 32px; color: var(--text);
 }
 .view-title em { color: var(--blue); font-style: normal; }
@@ -208,8 +208,8 @@ body {
 .form-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
 .form-group { display: flex; flex-direction: column; gap: 6px; }
 .form-group label {
-  font-size: 12px; font-weight: 600; letter-spacing: 0.02em;
-  color: var(--text);
+  font-size: 12px; font-weight: 500; letter-spacing: 0.01em;
+  color: var(--muted);
 }
 .form-group select,
 .form-group input[type="text"],
@@ -234,7 +234,7 @@ body {
   margin-top: 8px;
   background: var(--blue); color: #fff;
   border: none; padding: 11px 28px;
-  font-size: 13px; font-weight: 600;
+  font-size: 13px; font-weight: 500;
   cursor: pointer; border-radius: var(--radius);
   transition: background 0.2s; font-family: 'DM Sans', sans-serif;
 }
@@ -265,9 +265,9 @@ body {
   width: 4px; background: var(--blue);
 }
 .metric-num {
-  font-size: 38px; font-weight: 700;
+  font-size: 38px; font-weight: 600;
   color: var(--blue); line-height: 1;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
 }
 .metric-label {
   font-size: 12px; color: var(--muted);
@@ -295,8 +295,8 @@ body {
   margin-bottom: 16px;
 }
 .profit-name {
-  font-size: 17px; font-weight: 700; color: var(--text);
-  letter-spacing: -0.01em;
+  font-size: 17px; font-weight: 600; color: var(--text);
+  letter-spacing: 0;
 }
 .profit-client {
   font-size: 11px; color: var(--muted);
@@ -304,8 +304,8 @@ body {
   text-transform: uppercase;
 }
 .profit-pct {
-  font-size: 20px; font-weight: 700;
-  text-align: right; letter-spacing: -0.02em;
+  font-size: 20px; font-weight: 500;
+  text-align: right; letter-spacing: 0;
 }
 .profit-pct.ok { color: var(--ok); }
 .profit-pct.warn { color: var(--warn); }
@@ -338,7 +338,7 @@ body {
   font-size: 12px; color: var(--muted);
   padding: 2px 0;
 }
-.profit-breakdown-row span:last-child { color: var(--text); font-weight: 500; }
+.profit-breakdown-row span:last-child { color: var(--text); font-weight: 400; }
 
 /* ──────────────────────────────────────────
    ACTIVITY FEED
@@ -354,10 +354,10 @@ body {
 }
 .activity-item:first-child { border-radius: var(--radius) var(--radius) 0 0; }
 .activity-item:last-child { border-radius: 0 0 var(--radius) var(--radius); }
-.activity-project { font-weight: 600; min-width: 160px; color: var(--text); }
+.activity-project { font-weight: 500; min-width: 160px; color: var(--text); }
 .activity-area { color: var(--muted); min-width: 100px; }
 .activity-hours {
-  font-size: 12px; font-weight: 600; color: var(--blue);
+  font-size: 12px; font-weight: 500; color: var(--blue);
   margin-left: auto; white-space: nowrap;
 }
 .activity-date {
@@ -369,7 +369,7 @@ body {
 ────────────────────────────────────────── */
 .badge {
   display: inline-block; padding: 3px 10px; border-radius: 20px;
-  font-size: 11px; font-weight: 600;
+  font-size: 11px; font-weight: 500;
 }
 .badge-cont { background: var(--blue-soft); color: var(--blue); }
 .badge-int  { background: rgba(245,158,11,0.12); color: #B45309; }
@@ -456,7 +456,7 @@ body {
 ────────────────────────────────────────── */
 .btn-export {
   background: var(--blue-soft); border: 1px solid rgba(26,107,245,0.3);
-  color: var(--blue); padding: 8px 20px; font-size: 12px; font-weight: 600;
+  color: var(--blue); padding: 8px 20px; font-size: 12px; font-weight: 500;
   font-family: 'DM Sans', sans-serif; cursor: pointer;
   border-radius: var(--radius); transition: all 0.2s;
 }
@@ -473,7 +473,7 @@ body {
   box-shadow: var(--shadow);
 }
 .mgmt-add-form h3 {
-  font-size: 13px; font-weight: 700; letter-spacing: 0.03em;
+  font-size: 13px; font-weight: 500; letter-spacing: 0.03em;
   color: var(--text); margin-bottom: 16px;
 }
 .btn-action {
@@ -556,9 +556,8 @@ td select.inline-edit {
   box-shadow: var(--shadow-md);
 }
 .modal-title {
-  font-size: 18px; font-weight: 700;
+  font-size: 18px; font-weight: 600;
   color: var(--text); margin-bottom: 12px;
-  letter-spacing: -0.01em;
 }
 .modal-body {
   font-size: 14px; color: var(--muted);
@@ -574,7 +573,7 @@ td select.inline-edit {
 .btn-modal-cancel:hover { color: var(--text); border-color: var(--muted); }
 .btn-modal-confirm {
   background: var(--critical); color: #fff;
-  border: none; padding: 9px 20px; font-size: 13px; font-weight: 600;
+  border: none; padding: 9px 20px; font-size: 13px; font-weight: 500;
   font-family: 'DM Sans', sans-serif;
   cursor: pointer; border-radius: var(--radius); transition: background 0.2s;
 }
