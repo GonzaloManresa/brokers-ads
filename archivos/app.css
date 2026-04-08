@@ -594,6 +594,54 @@ td select.inline-edit {
 .archived-section.open { display: block; }
 
 /* ──────────────────────────────────────────
+   THEME TOGGLE BUTTON
+────────────────────────────────────────── */
+.btn-theme {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  width: 32px; height: 32px;
+  font-size: 15px; line-height: 1;
+  cursor: pointer; border-radius: var(--radius);
+  transition: all 0.2s;
+  display: flex; align-items: center; justify-content: center;
+}
+.btn-theme:hover { border-color: var(--blue); color: var(--blue); }
+
+/* ──────────────────────────────────────────
+   DARK MODE
+────────────────────────────────────────── */
+[data-theme="dark"] {
+  --bg:        #0D1B2A;
+  --surface:   #162236;
+  --surface-2: #1E3250;
+  --text:      #E8EDF5;
+  --muted:     #8A9BB0;
+  --border:    rgba(255,255,255,0.08);
+  --shadow:    0 2px 8px rgba(0,0,0,0.3);
+  --shadow-md: 0 4px 20px rgba(0,0,0,0.4);
+}
+[data-theme="dark"] #view-login {
+  background: linear-gradient(145deg, #0a1628 0%, #0D1B2A 60%, #162236 100%);
+}
+[data-theme="dark"] .form-group select,
+[data-theme="dark"] .form-group input[type="text"],
+[data-theme="dark"] .form-group input[type="password"],
+[data-theme="dark"] .form-group input[type="date"],
+[data-theme="dark"] .form-group input[type="number"] {
+  background: var(--bg);
+  color: var(--text);
+}
+[data-theme="dark"] td input.inline-edit,
+[data-theme="dark"] td select.inline-edit {
+  background: var(--bg);
+  color: var(--text);
+}
+[data-theme="dark"] .form-group input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.7);
+}
+
+/* ──────────────────────────────────────────
    RESPONSIVE
 ────────────────────────────────────────── */
 @media (max-width: 768px) {

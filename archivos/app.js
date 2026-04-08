@@ -10,6 +10,27 @@ const { createClient } = supabase;
 const db = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // ──────────────────────────────────────────
+// THEME
+// ──────────────────────────────────────────
+const Theme = {
+  init() {
+    const saved = localStorage.getItem('tt_theme') || 'light';
+    this._apply(saved);
+  },
+  toggle() {
+    const current = document.documentElement.getAttribute('data-theme') || 'light';
+    const next = current === 'dark' ? 'light' : 'dark';
+    localStorage.setItem('tt_theme', next);
+    this._apply(next);
+  },
+  _apply(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    const icon = theme === 'dark' ? '☀' : '☽';
+    document.querySelectorAll('.btn-theme').forEach(btn => btn.textContent = icon);
+  }
+};
+
+// ──────────────────────────────────────────
 // SESSION (solo en localStorage — dato mínimo)
 // ──────────────────────────────────────────
 const Session = {
@@ -770,5 +791,6 @@ const Views = {
 // BOOT
 // ──────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
+  Theme.init();
   Router.init();
 });
