@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TimeTrack — Sistema interno</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="app.css">
+</head>
+<body>
+
+<!-- TOAST NOTIFICATION -->
+<div class="notify" id="notify"></div>
+
+<!-- CONFIRM MODAL -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal-card">
+    <div class="modal-title" id="modal-title">Confirmar acción</div>
+    <div class="modal-body" id="modal-body"></div>
+    <div class="modal-actions">
+      <button class="btn-modal-cancel" onclick="Modal.cancel()">Cancelar</button>
+      <button class="btn-modal-confirm" id="modal-confirm-btn">Confirmar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     VIEW: LOGIN
+════════════════════════════════════════ -->
+<div data-view="login" id="view-login">
+  <div class="login-card">
+    <div class="login-logo">TimeTrack / Brokers Ads</div>
+    <h1 class="login-title">Acceso al sistema</h1>
+    <p class="login-sub">Ingresá con tus credenciales para continuar.</p>
+    <div class="form-error" id="login-error">Usuario o contraseña incorrectos.</div>
+    <form class="login-form" onsubmit="Auth.handleLogin(event)">
+      <div class="form-group">
+        <label for="l-user">Usuario</label>
+        <input type="text" id="l-user" autocomplete="username" placeholder="tu usuario">
+      </div>
+      <div class="form-group">
+        <label for="l-pass">Contraseña</label>
+        <input type="password" id="l-pass" autocomplete="current-password" placeholder="••••••••">
+      </div>
+      <button type="submit" class="form-submit">Ingresar</button>
+    </form>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     VIEW: EMPLEADO
+════════════════════════════════════════ -->
+<div data-view="empleado" id="view-empleado">
+  <!-- Top bar -->
+  <div class="app-shell">
+    <div class="shell-logo">TimeTrack / Brokers Ads</div>
+    <div class="shell-right">
+      <span class="shell-role" id="emp-role-label">Área: equipo</span>
+      <button class="btn-logout" onclick="Auth.logout()">Cerrar sesión</button>
+    </div>
+  </div>
+  <!-- Content -->
+  <div class="view-content">
+    <div class="section-label">Registrar tiempo</div>
+    <h2 class="view-title">¿En qué estuviste<br>trabajando <em>hoy</em>?</h2>
+
+    <!-- Time entry form -->
+    <div class="form-grid" id="emp-form">
+      <div class="form-group">
+        <label>Proyecto</label>
+        <select id="e-proyecto">
+          <option value="">Seleccioná un proyecto</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Área</label>
+        <select id="e-area">
+          <option value="">Seleccioná un área</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Tiempo estimado</label>
+        <select id="e-tiempo">
+          <option value="">Seleccioná un bloque</option>
+          <option value="0.25">15 min</option>
+          <option value="0.5">30 min</option>
+          <option value="1">1 hora</option>
+          <option value="1.5">1:30 hs</option>
+          <option value="2">2 horas</option>
+          <option value="3">3 horas</option>
+          <option value="4">Medio día</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Tipo de tarea</label>
+        <select id="e-tipo">
+          <option value="">Seleccioná el tipo</option>
+          <option value="continua">Continua (ejecución directa)</option>
+          <option value="intermitente">Intermitente (ideación / revisión)</option>
+        </select>
+      </div>
+    </div>
+    <div id="emp-form-error" class="form-error" style="margin-top:12px;"></div>
+    <button class="form-submit" onclick="Views.empleado.submit()" style="margin-top:16px;">Registrar tiempo</button>
+    <p class="form-note">* El registro no se asocia a tu nombre. Solo se analiza por proyecto y área.</p>
+
+    <!-- Today's entries -->
+    <div class="today-section">
+      <div class="section-label">Registros de hoy</div>
+      <div id="today-table-wrap"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     VIEW: DIRECTOR
+════════════════════════════════════════ -->
+<div data-view="director" id="view-director">
+  <!-- Top bar -->
+  <div class="app-shell">
+    <div class="shell-logo">TimeTrack / Brokers Ads</div>
+    <div class="shell-right">
+      <span class="shell-role">Vista: Dirección</span>
+      <button class="btn-logout" onclick="Auth.logout()">Cerrar sesión</button>
+    </div>
+  </div>
+  <!-- Content -->
+  <div class="view-content">
+    <!-- Main tabs -->
+    <div class="tabs">
+      <button class="tab active" onclick="Views.director.switchTab('dashboard', this)">Dashboard</button>
+      <button class="tab" onclick="Views.director.switchTab('entradas', this)">Entradas</button>
+      <button class="tab" onclick="Views.director.switchTab('gestion', this)">Gestión</button>
+    </div>
+
+    <!-- ── TAB: DASHBOARD ── -->
+    <div class="tab-panel active" id="dir-tab-dashboard">
+      <div class="section-label">Resumen</div>
+      <h2 class="view-title" style="margin-bottom:24px;">Estado de<br>los <em>proyectos</em></h2>
+
+      <!-- Metric cards -->
+      <div class="metrics-grid" id="metrics-grid"></div>
+
+      <!-- Profitability cards -->
+      <div class="section-label">Rentabilidad por proyecto</div>
+      <div class="profit-grid" id="profit-grid"></div>
+
+      <!-- Activity feed -->
+      <div class="activity-section">
+        <div class="section-label">Actividad reciente</div>
+        <div class="activity-list" id="activity-list"></div>
+      </div>
+    </div>
+
+    <!-- ── TAB: ENTRADAS ── -->
+    <div class="tab-panel" id="dir-tab-entradas">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+        <div>
+          <div class="section-label">Todas las entradas</div>
+          <h2 class="view-title" style="margin-bottom:0;">Registro <em>completo</em></h2>
+        </div>
+        <button class="btn-export" onclick="Views.director.exportCSV()">Exportar CSV</button>
+      </div>
+
+      <!-- Filters -->
+      <div class="filters-bar">
+        <div class="form-group">
+          <label>Proyecto</label>
+          <select id="f-proj"></select>
+        </div>
+        <div class="form-group">
+          <label>Área</label>
+          <select id="f-area-dir"></select>
+        </div>
+        <div class="form-group">
+          <label>Desde</label>
+          <input type="date" id="f-desde">
+        </div>
+        <div class="form-group">
+          <label>Hasta</label>
+          <input type="date" id="f-hasta">
+        </div>
+        <button class="btn-reset" onclick="Views.director.resetFilters()">Limpiar</button>
+        <button class="form-submit" style="margin-top:0; align-self:flex-end;" onclick="Views.director.applyFilters()">Filtrar</button>
+      </div>
+
+      <!-- Table -->
+      <div class="app-table-wrap">
+        <table class="app-table">
+          <thead>
+            <tr>
+              <th>Fecha</th>
+              <th>Proyecto</th>
+              <th>Área</th>
+              <th>Tipo</th>
+              <th>Horas</th>
+              <th>Factor</th>
+              <th>Ponderado</th>
+              <th>Estado proyecto</th>
+              <th>Rentabilidad</th>
+            </tr>
+          </thead>
+          <tbody id="entries-tbody"></tbody>
+        </table>
+      </div>
+      <div class="pagination" id="entries-pagination"></div>
+    </div>
+
+    <!-- ── TAB: GESTIÓN ── -->
+    <div class="tab-panel" id="dir-tab-gestion">
+      <div class="section-label">Gestión</div>
+      <h2 class="view-title" style="margin-bottom:24px;">Administración <em>del sistema</em></h2>
+
+      <div class="sub-tabs">
+        <button class="sub-tab active" onclick="Views.director.switchSubTab('proyectos', this)">Proyectos</button>
+        <button class="sub-tab" onclick="Views.director.switchSubTab('usuarios', this)">Usuarios</button>
+      </div>
+
+      <!-- Sub-panel: Proyectos -->
+      <div class="sub-panel active" id="sub-proyectos">
+        <div class="mgmt-add-form">
+          <h3>Agregar proyecto</h3>
+          <div class="form-grid-3">
+            <div class="form-group">
+              <label>Nombre del proyecto</label>
+              <input type="text" id="np-nombre" placeholder="Ej: Campaña Primavera">
+            </div>
+            <div class="form-group">
+              <label>Cliente</label>
+              <input type="text" id="np-cliente" placeholder="Ej: Coca-Cola">
+            </div>
+            <div class="form-group">
+              <label>Presupuesto en horas</label>
+              <input type="number" id="np-horas" placeholder="40" min="1" step="0.5">
+            </div>
+          </div>
+          <div id="np-error" class="form-error" style="margin-top:12px;"></div>
+          <button class="form-submit" onclick="Views.director.addProject()" style="margin-top:16px;">Agregar proyecto</button>
+        </div>
+
+        <div class="app-table-wrap">
+          <table class="app-table">
+            <thead>
+              <tr>
+                <th>Proyecto</th>
+                <th>Cliente</th>
+                <th>Presupuesto</th>
+                <th>Hs usadas</th>
+                <th>Margen</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="projects-tbody"></tbody>
+          </table>
+        </div>
+
+        <button class="archived-toggle" onclick="Views.director.toggleArchived('projects')" id="toggle-archived-projects">
+          ▸ Proyectos archivados
+        </button>
+        <div class="archived-section" id="archived-projects-section">
+          <div class="app-table-wrap">
+            <table class="app-table">
+              <thead>
+                <tr><th>Proyecto</th><th>Cliente</th><th>Presupuesto</th><th>Acciones</th></tr>
+              </thead>
+              <tbody id="archived-projects-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sub-panel: Usuarios -->
+      <div class="sub-panel" id="sub-usuarios">
+        <div class="mgmt-add-form">
+          <h3>Agregar usuario</h3>
+          <div class="form-grid" style="grid-template-columns: 1fr 1fr 1fr 1fr; gap:16px;">
+            <div class="form-group">
+              <label>Usuario</label>
+              <input type="text" id="nu-user" placeholder="usuario123">
+            </div>
+            <div class="form-group">
+              <label>Contraseña</label>
+              <input type="password" id="nu-pass" placeholder="contraseña">
+            </div>
+            <div class="form-group">
+              <label>Nombre visible</label>
+              <input type="text" id="nu-nombre" placeholder="Juan Pérez">
+            </div>
+            <div class="form-group">
+              <label>Rol</label>
+              <select id="nu-rol">
+                <option value="empleado">Empleado</option>
+                <option value="director">Director</option>
+              </select>
+            </div>
+          </div>
+          <div id="nu-error" class="form-error" style="margin-top:12px;"></div>
+          <button class="form-submit" onclick="Views.director.addUser()" style="margin-top:16px;">Agregar usuario</button>
+        </div>
+
+        <div class="app-table-wrap">
+          <table class="app-table">
+            <thead>
+              <tr>
+                <th>Usuario</th>
+                <th>Nombre</th>
+                <th>Rol</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="users-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <!-- end gestión tab -->
+
+  </div>
+</div>
+<!-- end view-director -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
